@@ -123,7 +123,7 @@ audio{width:100%;margin-top:8px}
   <div id="h-alert"></div>
   <div class="hdr">Plan de hoy · toca para empezar</div>
   <div class="group" id="h-blocks"></div>
-  <p class="foot">🚆 = lo puedes hacer en el tren sin datos · 🏠 = mejor en casa. Los bloques de la app se marcan solos al terminar; los de goprep.gg márcalos tú con el círculo.</p>
+  <p class="foot">Los bloques de la app se marcan solos al terminar; los de goprep.gg márcalos tú con el círculo.</p>
   <div class="hdr">Esta semana</div>
   <div class="card" style="margin-top:0"><div class="week" id="h-week"></div><div class="muted" id="h-weektxt" style="margin-top:8px"></div></div>
   <div class="stats" style="margin-top:12px">
@@ -1153,7 +1153,7 @@ function renderHome(){
   document.getElementById("h-alert").innerHTML=html;
   const L=logFor(t);
   document.getElementById("h-blocks").innerHTML=blocksFor(t).map((b,i)=>{const on=L.done.includes(b[0]);
-    return `<div class="row ${on?"done":""}"><span class="chk ${on?"on":""}" onclick="event.stopPropagation();toggleBlock('${b[0]}')">${on?"✓":""}</span><div class="lbl" onclick="startBlock(${i})">${b[1]} ${esc(b[2])}<small>${b[3]} min${b[4]?" · toca para empezar":" · fuera de la app: márcalo al acabar"}</small></div>${b[4]?'<span class="chev">›</span>':""}</div>`}).join("");
+    return `<div class="row ${on?"done":""}"><span class="chk ${on?"on":""}" onclick="event.stopPropagation();toggleBlock('${b[0]}')">${on?"✓":""}</span><div class="lbl" onclick="startBlock(${i})">${esc(b[2])}<small>${b[3]} min${b[4]?" · toca para empezar":" · fuera de la app: márcalo al acabar"}</small></div>${b[4]?'<span class="chev">›</span>':""}</div>`}).join("");
   // semana
   const dow=(new Date().getDay()+6)%7,mon=tnum()-dow;let wk="",tot=0;const names=["L","M","X","J","V","S","D"];
   for(let i=0;i<7;i++){const d=fromNum(mon+i),mm=minutesFor(d);tot+=mm;wk+=`<div class="${i===dow?"today":""}"><i><b style="height:${Math.min(100,mm/S.target*100)}%;${mm>=S.target?"":"background:var(--orange)"}"></b></i>${names[i]}</div>`}
@@ -1168,8 +1168,8 @@ function openPlanInfo(){openSheet("Plan");
   stage.innerHTML=`<div class="hdr" style="margin-top:0">Fecha del examen</div><input type="date" id="exd" value="${S.plan.exam}" onchange="S.plan.exam=this.value;save();openPlanInfo()">
   <div class="hdr">Fases</div><div class="group">${PLAN.phases.map((p,i)=>`<div class="row noicon"><div class="lbl"><b>${p.name}</b>${i===phaseIdx()?" · <span style='color:var(--blue)'>ahora</span>":""}<small>${p.goal}</small></div></div>`).join("")}</div>
   <div class="hdr">Semana tipo (${PLAN.phases[phaseIdx()].name})</div>
-  ${dows.map(d=>{const ds=fromNum(tnum()+((d-new Date().getDay()+7)%7));return `<div class="card"><h3>${nm[d]}</h3>${blocksFor(ds).map(b=>`<p>${b[1]} ${esc(b[2])} <span class="muted">· ${b[3]} min</span></p>`).join("")}</div>`}).join("")}
-  <p class="foot">Las 3 h de tren al día te dan margen: todo lo marcado con 🚆 se hace sin datos en el trayecto. goprep.gg (Reading/Listening y simulacros) necesita internet: hazlo en casa o con wifi.</p>
+  ${dows.map(d=>{const ds=fromNum(tnum()+((d-new Date().getDay()+7)%7));return `<div class="card"><h3>${nm[d]}</h3>${blocksFor(ds).map(b=>`<p>${esc(b[2])} <span class="muted">· ${b[3]} min</span></p>`).join("")}</div>`}).join("")}
+  <p class="foot">goprep.gg (Reading, Listening y simulacros) necesita internet.</p>
   <div class="hdr">Minutos al día</div><div class="seg">${[90,120,150].map(v=>`<button class="${S.target===v?"on":""}" onclick="S.target=${v};save();openPlanInfo()">${v} min</button>`).join("")}</div>`;
 }
 
@@ -1374,7 +1374,7 @@ function openSpeakPick(){openSheet("Practicar Speaking");
   <div class="row" onclick="startSP2()"><div class="ic" style="background:#ff9500">2</div><div class="lbl">Part 2 · Cue card<small>1 min preparación + 2 min hablando</small></div><span class="chev">›</span></div>
   <div class="row" onclick="startSP3()"><div class="ic" style="background:#af52de">3</div><div class="lbl">Part 3 · Discusión<small>Preguntas abstractas · usa O-R-E-C</small></div><span class="chev">›</span></div>
   <div class="row" onclick="startSPFull()"><div class="ic" style="background:#ff3b30">⏱</div><div class="lbl">Examen completo (11–14 min)<small>Part 1 → Part 2 → Part 3 seguidas</small></div><span class="chev">›</span></div></div>
-  <p class="foot">Habla siempre en voz alta, aunque sea bajito en el tren. Pensar la respuesta no entrena el Speaking.</p>`}
+  <p class="foot">Habla siempre en voz alta, aunque sea bajito. Pensar la respuesta no entrena el Speaking.</p>`}
 let SP=null;
 function spDone(){const m=markKind("speak");save();return m}
 function startSP1(full){const t=shuffle(SPEAKING.p1);const qs=t[0].qs.slice(0,3).concat(t[1].qs.slice(0,2)).map((q,i)=>({q,topic:i<3?t[0].topic:t[1].topic}));SP={qs,i:0,full};openSheet("Part 1");showSP1()}
