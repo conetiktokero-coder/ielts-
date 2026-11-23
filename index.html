@@ -1435,7 +1435,8 @@ function render(){GROUPS=parseVocab();CATS=GROUPS.flatMap(g=>g.cats);
   if(curView==="home")renderHome();else if(curView==="vocab")renderVocab();else if(curView==="gram")renderGram();else if(curView==="write")renderWrite();else if(curView==="speak")renderSpeak()}
 render();
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!sheet.classList.contains("on"))render()});
-if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(r=>{r.update().catch(()=>{});
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(!window.__rl){window.__rl=1;location.reload()}})}).catch(()=>{})}
 </script>
 </body>
 </html>
